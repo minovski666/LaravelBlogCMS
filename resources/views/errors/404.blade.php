@@ -1,1 +1,9 @@
-<h1>Custom 404 page</h1>
+@extends('layouts.app')
+
+@section('content')
+
+
+    <h1 class="text-center">Opps no page avaiable</h1>
+
+
+    @stop
