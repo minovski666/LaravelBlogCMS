@@ -31,8 +31,8 @@
                 <td>{{$post->id}}</td>
                 <td><img height="50" src="{{$post->photo ? $post->photo->file : 'http://placeholder.it/400x400'}}" alt=""></td>
                 <td>{{$post->user->name}}</td>
-                <td>{{$post->category_id}}</td>
-                <td>{{$post->title}}</td>
+                <td>{{$post->category ? $post->category->name : "Uncategoriezed"}}</td>
+                <td><a href="{{route('admin.posts.edit', $post->id)}}">{{$post->title}}</a></td>
                 <td>{{$post->body}}</td>
                 <td>{{$post->created_at->diffForhumans()}}</td>
                 <td>{{$post->updated_at->diffForhumans()}}</td>
