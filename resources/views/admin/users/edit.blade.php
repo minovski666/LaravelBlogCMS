@@ -54,7 +54,7 @@
 
     </div>
         
-    <div class="form-gropu">
+    <div class="form-group">
         {!! Form::submit('Edit User', ['class'=>'btn btn-primary col-sm-6']) !!}
     </div>
 
