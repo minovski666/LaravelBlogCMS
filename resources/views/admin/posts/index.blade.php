@@ -49,4 +49,12 @@
           </tbody>
         </table>
 
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset">
+
+            {{$posts->render()}}
+
+        </div>
+    </div>
+
     @stop
