@@ -16,7 +16,7 @@ mix.styles([
 ], 'public/css/libs.css');
 
 mix.scripts([
-    'resources/assets/js/libs/jquery.js',
+    'resources/assets/js/libs/jquery-3.3.1.min.js',
     'resources/assets/js/libs/bootstrap.js',
     'resources/assets/js/libs/metisMenu.js',
     'resources/assets/js/libs/sb-admin-2.js',

@@ -1,10 +1,11 @@
-@extends('layouts.blog-post')
+@extends('layouts.blog-home')
 
 @section('content')
 
 
+<div class="row">
 
-
+    <div class="col-md-8">
     <!-- Blog Post -->
 
     <!-- Title -->
@@ -12,7 +13,7 @@
 
     <!-- Author -->
     <p class="lead">
-        by <a href="#">{{$post->user->name}}</a>
+        by {{$post->user->name}}
     </p>
 
     <hr>
@@ -23,19 +24,15 @@
     <hr>
 
     <!-- Preview Image -->
-    <img class="img-responsive" src="{{$post->photo->file}}" alt="">
+    <img class="img-responsive" src="{{$post->photo->file ? $post->photo->file : $post->photoPlaceholder()}}" alt="">
 
     <hr>
 
     <!-- Post Content -->
-    <p>{{$post->body}}</p>
+    <p>{!!$post->body!!}</p>
     <hr>
 
-    @if(Session::has('comment_message'))
 
-        {{session('comment_message')}}
-
-    @endif
     <!-- Blog Comments -->
 @if(Auth::check())
     <!-- Comments Form -->
@@ -83,6 +80,28 @@
             <p>{{$comment->body}}</p>
 
 
+            <div class="comment-reply-container">
+
+                <button class="toggle-reply btn btn-primary pull-right">Reply</button>
+
+                <div class="comment-reply col-sm-6">
+
+                    {!! Form::open(['method' => 'POST', 'action' => 'CommentRepliesController@createReply', 'files' => true]) !!}
+
+                    <input type="hidden" name="comment_id" value="{{$comment->id}}">
+
+                    <div class="form-group">
+                        {!! Form::label('body', 'Body:') !!}
+                        {!! Form::textarea('body', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::submit('Reply', ['class' => 'btn btn-primary']) !!}
+                    </div>
+                    {!! Form::close() !!}
+
+                </div>
+            </div>
+
         @if(count($comment->replies) > 0)
 
             @foreach($comment->replies as $reply)
@@ -101,27 +120,6 @@
                     {{$reply->body}}
                 </div>
 
-                <div class="comment-reply-container">
-
-                    <button class="toggle-reply btn btn-primary pull-right">Reply</button>
-
-                    <div class="comment-reply col-sm-6">
-
-                {!! Form::open(['method' => 'POST', 'action' => 'CommentRepliesController@createReply', 'files' => true]) !!}
-
-                <input type="hidden" name="comment_id" value="{{$comment->id}}">
-
-                <div class="form-group">
-                    {!! Form::label('body', 'Body:') !!}
-                    {!! Form::textarea('body', null, ['class' => 'form-control', 'rows' => 2]) !!}
-                </div>
-                <div class="form-group">
-                    {!! Form::submit('Reply', ['class' => 'btn btn-primary']) !!}
-                </div>
-                {!! Form::close() !!}
-
-            </div>
-                </div>
                 </div>
 
 
@@ -137,80 +135,28 @@
 
     <!-- Comment -->
 
+</div>
+
+    @include('includes.front_sidebar')
 
     </div>
-
-    <!-- Blog Sidebar Widgets Column -->
-    <div class="col-md-4">
-
-        <!-- Blog Search Well -->
-        <div class="well">
-            <h4>Blog Search</h4>
-            <div class="input-group">
-                <input type="text" class="form-control">
-                <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                        </span>
-            </div>
-            <!-- /.input-group -->
-        </div>
-
-        <!-- Blog Categories Well -->
-        <div class="well">
-            <h4>Blog Categories</h4>
-            <div class="row">
-                <div class="col-lg-6">
-                    <ul class="list-unstyled">
-                        <li><a href="#">Category Name</a>
-                        </li>
-                        <li><a href="#">Category Name</a>
-                        </li>
-                        <li><a href="#">Category Name</a>
-                        </li>
-                        <li><a href="#">Category Name</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-6">
-                    <ul class="list-unstyled">
-                        <li><a href="#">Category Name</a>
-                        </li>
-                        <li><a href="#">Category Name</a>
-                        </li>
-                        <li><a href="#">Category Name</a>
-                        </li>
-                        <li><a href="#">Category Name</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- /.row -->
-        </div>
-
-        <!-- Side Widget Well -->
-        <div class="well">
-            <h4>Side Widget Well</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
-        </div>
-
 
 @stop
 
 @section('scripts')
+    <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-            <script>
+    <script>
 
+        $(".comment-reply-container .toggle-reply").click(function(){
 
-                $(".comment-reply-container .toggle-reply").click(function(){
+            $(this).next().slideToggle("slow");
 
-                    $(this).next().slideToggle("slow");
-
-
-                });
-
-
+        });
 
             </script>
 
